@@ -1,0 +1,35 @@
+﻿@using Infragistics.Web.Mvc 
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+    <form method="post">
+        <button asp-controller="Home" asp-action="Download">Download</button>
+    </form>
+
+    @(Html.Infragistics().Grid<Order>().ID("grid1")
+        .PrimaryKey("OrderID")
+        .AutoGenerateColumns(false)
+        .Columns(column =>
+        {
+            column.For(x => x.OrderID).HeaderText("Order ID").DataType("number");
+            column.For(x => x.ContactName).HeaderText("Contact Name").DataType("string");
+            column.For(x => x.ShipAddress).HeaderText("Shipping Address").DataType("string");
+            column.For(x => x.OrderDate).HeaderText("Order Date").DataType("date").Format("dateTime");
+        })
+        .Features(f => f.Filtering())
+        .Width("1000px")
+        .DataSourceUrl(Url.Action("GetData"))
+        .Render()
+    )
+
+    @(Html.Infragistics().Combo().ID("combo1")
+        .ValueKey("OrderID")
+        .TextKey("ContactName")
+        .DataSourceUrl(Url.Action("GetData"))
+        .Render()
+     )
+
+</div>
